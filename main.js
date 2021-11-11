@@ -99,6 +99,28 @@ function createChar() {
     .catch(err => console.log(err));
 }
 
+function queryAge(evt) {
+  evt.preventDefault();
+  // need to get a reference to the age input for its value
+  // make our axios request sending a query with the age as value
+  // handle response and send the new arr els to createCard func
+  const newAge = ageInput.value;
+
+  axios
+    .get(baseURL + '/character/?age=' + newAge)
+    .then(res => {
+      clearCharacters();
+
+      for (let i = 0; i < res.data.length; i++) {
+        createCharacterCard(res.data[i])
+      }
+    })
+    .catch(err => console.log(err));
+}
+
+ageForm.addEventListener('submit', queryAge);
+
+
 createForm.addEventListener('submit', createChar);
 getAllBtn.addEventListener("click", getAllChars);
 
